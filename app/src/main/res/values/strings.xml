@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Freebox Remote</string>
+    <string name="version">0.5.0</string>
+    <string name="action_about">About</string>
+    <string name="default_code">43463545</string>
+    <string name="URL">http://hd1.freebox.fr/pub/remote_control?key=%s&amp;code=%s</string>
+</resources>

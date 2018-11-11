@@ -1,0 +1,12 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="right_margin">10dp</dimen>
+    <dimen name="left_margin">10dp</dimen>
+    <dimen name="size_image_button_mute">60dp</dimen>
+    <dimen name="size_image_button_power">60dp</dimen>
+    <dimen name="margin_inter_button_num">14dp</dimen>
+    <dimen name="size_button_num">60dp</dimen>
+    <dimen name="size_image_button_arrow">60dp</dimen>
+    <dimen name="margin_arrow">0dp</dimen>
+    <dimen name="size_button">50dp</dimen>
+</resources>
