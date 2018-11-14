@@ -52,7 +52,9 @@ public class RemoteActivity extends AppCompatActivity {
     private ImageButton pImageButtonRewind;
     private ImageButton pImageButtonPlay;
     private ImageButton pImageButtonForward;
-    String pCode;
+    private CodeFreebox pCodeFreebox;
+    private String pCode;
+    private String pAbsoluteInternalPath;
 
     // Méthode setImageButtonSize
     private void setImageButtonSize(ImageButton a_image_button, int a_size) {
@@ -123,7 +125,16 @@ public class RemoteActivity extends AppCompatActivity {
         setImageButtonSize(pImageButtonPlay, getResources().getDimensionPixelSize(R.dimen.size_button));
         pImageButtonForward = (ImageButton) findViewById(R.id.imageButtonForward);
         setImageButtonSize(pImageButtonForward, getResources().getDimensionPixelSize(R.dimen.size_button));
-        pCode = getString(R.string.default_code);
+        pAbsoluteInternalPath = this.getFilesDir().getAbsolutePath();
+        pCodeFreebox = new CodeFreebox(pAbsoluteInternalPath);
+        pCode = pCodeFreebox.lireCode();
+        if (pCode == null)
+        {
+            pCode = getString(R.string.default_code);
+        }
+        else
+        {
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +150,8 @@ public class RemoteActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                pCode = lEditText.toString();
+                                pCode = lEditText.getText().toString();
+                                pCodeFreebox.ecrireCode(pCode);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
