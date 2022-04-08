@@ -286,7 +286,7 @@
                         android:id="@+id/imageButtonPlay"
                         android:layout_width="@dimen/size_button"
                         android:layout_height="@dimen/size_button"
-                        app:srcCompat="@drawable/forward" />
+                        app:srcCompat="@drawable/play" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"

@@ -55,6 +55,7 @@ public class RemoteActivity extends AppCompatActivity {
     private CodeFreebox pCodeFreebox;
     private String pCode;
     private String pAbsoluteInternalPath;
+    private boolean pButtonPlayDisplayed;
 
     // Méthode setImageButtonSize
     private void setImageButtonSize(ImageButton a_image_button, int a_size) {
@@ -135,6 +136,7 @@ public class RemoteActivity extends AppCompatActivity {
         else
         {
         }
+        pButtonPlayDisplayed = true;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +274,7 @@ public class RemoteActivity extends AppCompatActivity {
         pImageButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "back", pCode);
+                String lURL = String.format(getString(R.string.URL), "red", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
             }
@@ -288,7 +290,7 @@ public class RemoteActivity extends AppCompatActivity {
         pImageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "swap", pCode);
+                String lURL = String.format(getString(R.string.URL), "blue", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
             }
@@ -320,7 +322,7 @@ public class RemoteActivity extends AppCompatActivity {
         pImageButtonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "menu", pCode);
+                String lURL = String.format(getString(R.string.URL), "green", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
             }
@@ -336,7 +338,7 @@ public class RemoteActivity extends AppCompatActivity {
         pImageButtonInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "info", pCode);
+                String lURL = String.format(getString(R.string.URL), "yellow", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
             }
@@ -384,15 +386,25 @@ public class RemoteActivity extends AppCompatActivity {
         pImageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "bwd", pCode);
+                String lURL = String.format(getString(R.string.URL), "play", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
+                if (pButtonPlayDisplayed)
+                {
+                    pImageButtonPlay.setBackgroundResource(R.drawable.pause);
+                    pButtonPlayDisplayed = false;
+                }
+                else
+                {
+                    pImageButtonPlay.setBackgroundResource(R.drawable.play);
+                    pButtonPlayDisplayed = true;
+                }
             }
         });
         pImageButtonRewind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "play", pCode);
+                String lURL = String.format(getString(R.string.URL), "bwb", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
             }
@@ -419,7 +431,7 @@ public class RemoteActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_about) {
             AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(this);
             lAlertDialog.setTitle("Télécommande Freebox\nVersion " + this.getString(R.string.version));
-            lAlertDialog.setMessage("© AIT 2018 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
+            lAlertDialog.setMessage("© AIT 2022 (pascalh)\n\nassistanceinformatiquetoulouse@gmail.com");
             lAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 }});
