@@ -3,12 +3,14 @@ package com.assistanceinformatiquetoulouse.freeboxremote;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +57,6 @@ public class RemoteActivity extends AppCompatActivity {
     private CodeFreebox pCodeFreebox;
     private String pCode;
     private String pAbsoluteInternalPath;
-    private boolean pButtonPlayDisplayed;
 
     // Méthode setImageButtonSize
     private void setImageButtonSize(ImageButton a_image_button, int a_size) {
@@ -136,7 +137,6 @@ public class RemoteActivity extends AppCompatActivity {
         else
         {
         }
-        pButtonPlayDisplayed = true;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -389,33 +389,77 @@ public class RemoteActivity extends AppCompatActivity {
                 String lURL = String.format(getString(R.string.URL), "play", pCode);
                 DownloadTask downloadTask = new DownloadTask(getApplicationContext());
                 downloadTask.execute(lURL);
-                if (pButtonPlayDisplayed)
-                {
-                    pImageButtonPlay.setBackgroundResource(R.drawable.pause);
-                    pButtonPlayDisplayed = false;
-                }
-                else
-                {
-                    pImageButtonPlay.setBackgroundResource(R.drawable.play);
-                    pButtonPlayDisplayed = true;
-                }
             }
         });
-        pImageButtonRewind.setOnClickListener(new View.OnClickListener() {
+        pImageButtonRewind.setOnTouchListener(new View.OnTouchListener() {
+            private Handler pHandler;
             @Override
-            public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "bwb", pCode);
-                DownloadTask downloadTask = new DownloadTask(getApplicationContext());
-                downloadTask.execute(lURL);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (pHandler == null) {
+                        pHandler = new Handler();
+                        pHandler.post(actionButtonRewind);
+                        return(false);
+                    }
+                    else {
+                        return(true);
+                    }
+                }
+                else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (pHandler != null) {
+                        pHandler.removeCallbacks(actionButtonRewind);
+                        pHandler = null;
+                    }
+                    else {
+                    }
+                    v.setPressed(false);
+                    return(true);
+                }
+                return(false);
             }
+            Runnable actionButtonRewind = new Runnable() {
+                @Override public void run() {
+                    String lURL = String.format(getString(R.string.URL), "bwd", pCode);
+                    DownloadTask downloadTask = new DownloadTask(getApplicationContext());
+                    downloadTask.execute(lURL);
+                    pHandler.postDelayed(this, 200);
+                }
+            };
         });
-        pImageButtonForward.setOnClickListener(new View.OnClickListener() {
+        pImageButtonForward.setOnTouchListener(new View.OnTouchListener() {
+            private Handler pHandler;
             @Override
-            public void onClick(View view) {
-                String lURL = String.format(getString(R.string.URL), "fwd", pCode);
-                DownloadTask downloadTask = new DownloadTask(getApplicationContext());
-                downloadTask.execute(lURL);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (pHandler == null) {
+                        pHandler = new Handler();
+                        pHandler.post(actionButtonForward);
+                        return(false);
+                    }
+                    else {
+                        return(true);
+                    }
+                }
+                else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (pHandler != null) {
+                        pHandler.removeCallbacks(actionButtonForward);
+                        pHandler = null;
+                    }
+                    else {
+                    }
+                    v.setPressed(false);
+                    return(true);
+                }
+                return(false);
             }
+            Runnable actionButtonForward = new Runnable() {
+                @Override public void run() {
+                    String lURL = String.format(getString(R.string.URL), "fwd", pCode);
+                    DownloadTask downloadTask = new DownloadTask(getApplicationContext());
+                    downloadTask.execute(lURL);
+                    pHandler.postDelayed(this, 200);
+                }
+            };
         });
     }
 
